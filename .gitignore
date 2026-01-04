@@ -2,4 +2,20 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/EHostels.slnx/FileContentIndex
+## .NET
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.log
+.vs/
+
+/.vs/EHostels.slnx/DesignTimeBuild/.dtbcache.v2
+FileContentIndex/
+
+/.vs/EHostels.slnx/FileContentIndex/e4c7d5b7-2e99-406c-a984-638db9fd3b7f.vsidx
+/.vs/EHostels.slnx/FileContentIndex/fc78c58f-e3d5-4dcb-9024-a78ddeba023f.vsidx
+/.vs/EHostels.slnx/v18/.suo
+/.vs/EHostels.slnx/v18/DocumentLayout.backup.json
+/.vs/EHostels.slnx/v18/DocumentLayout.json
