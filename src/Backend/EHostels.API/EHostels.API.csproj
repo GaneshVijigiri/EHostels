@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\AppHost\EHostels.ServiceDefaults\EHostels.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\EHostels.Application\EHostels.Application.csproj" />
+    <ProjectReference Include="..\EHostels.Common\EHostels.Common.csproj" />
+    <ProjectReference Include="..\EHostels.Data\EHostels.Data.csproj" />
+  </ItemGroup>
+
+</Project>

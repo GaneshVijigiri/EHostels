@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/AppHost/">
+    <Project Path="src/AppHost/EHostels.AppHost/EHostels.AppHost.csproj" />
+    <Project Path="src/AppHost/EHostels.ServiceDefaults/EHostels.ServiceDefaults.csproj" />
+  </Folder>
+  <Folder Name="/Backend/">
+    <Project Path="src/Backend/EHostels.API/EHostels.API.csproj" />
+    <Project Path="src/Backend/EHostels.Application/EHostels.Application.csproj" Id="ba936b51-dadc-49d2-afdc-256eea4c9406" />
+    <Project Path="src/Backend/EHostels.Common/EHostels.Common.csproj" Id="1b5fed99-2d5f-41c5-97f8-77b6a6957167" />
+    <Project Path="src/Backend/EHostels.Data/EHostels.Data.csproj" Id="0a2d0f19-9768-4f44-a9d0-bce198946075" />
+  </Folder>
+  <Folder Name="/Frontend/">
+    <Project Path="src/Frontend/EHostels.BFF/EHostels.BFF.csproj" />
+    <Project Path="src/Frontend/EHostels.UI/ehostels.ui.esproj">
+      <Build />
+      <Deploy />
+    </Project>
+  </Folder>
+</Solution>
