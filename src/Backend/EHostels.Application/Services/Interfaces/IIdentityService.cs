@@ -1,4 +1,5 @@
 ﻿using EHostels.Application.DTOs;
+using EHostels.Application.Identity.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace EHostels.Application.Services.Interfaces
 {
     public interface IIdentityService
     {
-        Task<bool> ValidateUser(LoginDTO login);
+        Task<AuthenticateResponse> ValidateUser(LoginDTO login);
     }
 }

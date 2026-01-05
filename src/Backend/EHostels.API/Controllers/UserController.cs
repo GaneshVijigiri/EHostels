@@ -3,6 +3,7 @@ using EHostels.Application.DTOs;
 using EHostels.Application.Services.Interfaces;
 using EHostels.Application.Users.Commands;
 using EHostels.Application.Users.Queries;
+using EHostels.Common;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,7 @@ namespace EHostels.API.Controllers
         {
             if (user != null)
             {
-                int result = await _mediator.Send(new AddUserCommand() { userDTO = user}).ConfigureAwait(false);
+                CommandResult result = await _mediator.Send(new AddUserCommand() { userDTO = user}).ConfigureAwait(false);
                 return Ok(result);
             }
             return Ok(0);
@@ -31,7 +32,7 @@ namespace EHostels.API.Controllers
         [HttpGet]
         public async Task<ActionResult> GetUsers()
         {
-            var result = await _mediator.Send(new GetUsersQuery() { }).ConfigureAwait(false);
+            CommandResult result = await _mediator.Send(new GetUsersQuery() { }).ConfigureAwait(false);
             return Ok(result);
         }
     }

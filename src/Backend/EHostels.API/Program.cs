@@ -2,6 +2,7 @@ using EHostels.Application.Identity.Queries;
 using EHostels.Application.Mapper;
 using EHostels.Application.Services;
 using EHostels.Application.Services.Interfaces;
+using EHostels.Common;
 using EHostels.Data.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,7 @@ builder.Services.AddDbContext<EHostelsContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 builder.Services.AddMediatR(options => options.RegisterServicesFromAssembly(typeof(IdentityQuery).Assembly));
 ApplicationModule.Register(builder.Services);
 
