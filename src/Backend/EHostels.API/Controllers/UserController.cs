@@ -1,5 +1,9 @@
-﻿using EHostels.Application.DTOs;
+﻿using AutoMapper;
+using EHostels.Application.DTOs;
 using EHostels.Application.Services.Interfaces;
+using EHostels.Application.Users.Commands;
+using EHostels.Application.Users.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,17 +13,17 @@ namespace EHostels.API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly IMediator _mediator;
+        public UserController(IMediator mediator)
         {
-            _userService = userService;
+            _mediator = mediator;
         }
         [HttpPost("Insert")]
         public async Task<ActionResult> Insert(UserDTO user)
         {
             if (user != null)
             {
-                int result = await _userService.AddUser(user).ConfigureAwait(false);
+                int result = await _mediator.Send(new AddUserCommand() { userDTO = user}).ConfigureAwait(false);
                 return Ok(result);
             }
             return Ok(0);
@@ -27,7 +31,7 @@ namespace EHostels.API.Controllers
         [HttpGet]
         public async Task<ActionResult> GetUsers()
         {
-            var result = await _userService.GetUsers().ConfigureAwait(false);
+            var result = await _mediator.Send(new GetUsersQuery() { }).ConfigureAwait(false);
             return Ok(result);
         }
     }
