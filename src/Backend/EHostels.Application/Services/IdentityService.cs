@@ -2,6 +2,8 @@
 using EHostels.Application.Identity.Models;
 using EHostels.Application.Services.Interfaces;
 using EHostels.Common;
+using EHostels.Common.Enums;
+using EHostels.Data.Context;
 using EHostels.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -18,9 +20,9 @@ namespace EHostels.Application.Services
 {
     public class IdentityService : IIdentityService
     {
-        private readonly EHostelsContext _context;
+        private readonly EHostelsDbContext _context;
         private readonly JwtSettings _jwtSettings;
-        public IdentityService(EHostelsContext context, IOptions<JwtSettings> jwtSettings)
+        public IdentityService(EHostelsDbContext context, IOptions<JwtSettings> jwtSettings)
         {
             _context = context;
             _jwtSettings = jwtSettings.Value;
@@ -36,7 +38,12 @@ namespace EHostels.Application.Services
                     response.IsAuthenticated = true;
                     response.AccessToken = GenerateJwtToken(user);
                 }
-                return response;
+                else
+                {
+                    response.IsAuthenticated = false;
+                    response.ErrorMessage = ConstantMessages.InvalidCreds;
+                }
+                    return response;
             }
             return response;
         }

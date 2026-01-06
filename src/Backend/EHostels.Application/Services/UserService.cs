@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EHostels.Application.DTOs;
 using EHostels.Application.Services.Interfaces;
+using EHostels.Data.Context;
 using EHostels.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,9 +14,9 @@ namespace EHostels.Application.Services
 {
     public class UserService : IUserService
     {
-        private readonly EHostelsContext _context;
+        private readonly EHostelsDbContext _context;
         private readonly IMapper _mapper;
-        public UserService(EHostelsContext context, IMapper mapper) 
+        public UserService(EHostelsDbContext context, IMapper mapper) 
         {
             _context = context;
             _mapper = mapper;
