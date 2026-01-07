@@ -8,7 +8,7 @@ using System.Text.Json;
 
 namespace EHostels.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/ehostels/[controller]")]
     [ApiController]
     public class BaseApiController : ControllerBase
     {

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EHostels.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/ehostels/[controller]")]
     [ApiController]
     [Authorize]
     public class UserController : BaseApiController
