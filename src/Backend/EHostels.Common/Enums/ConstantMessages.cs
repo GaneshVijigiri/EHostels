@@ -15,5 +15,6 @@ namespace EHostels.Common.Enums
         public const string Error = "Error occured. Please try again";
         public const string NoDataFound = "Data not available";
         public const string InvalidCreds = "Invalid credentials";
+        public const string ClaimType = "UserData";
     }
 }

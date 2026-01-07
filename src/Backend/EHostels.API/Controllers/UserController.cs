@@ -14,7 +14,7 @@ namespace EHostels.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class UserController : ControllerBase
+    public class UserController : BaseApiController
     {
         private readonly IMediator _mediator;
         public UserController(IMediator mediator)

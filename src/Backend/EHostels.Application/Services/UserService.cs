@@ -16,7 +16,7 @@ namespace EHostels.Application.Services
     {
         private readonly EHostelsDbContext _context;
         private readonly IMapper _mapper;
-        public UserService(EHostelsDbContext context, IMapper mapper) 
+        public UserService(EHostelsDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -31,6 +31,22 @@ namespace EHostels.Application.Services
         public async Task<List<User>> GetUsers()
         {
             return await _context.Users.ToListAsync().ConfigureAwait(false);
+        }
+        public async Task<User> GetUserDetailsByEmail(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return new User();
+            }
+
+            var user = await _context.Users.Where(x => x.Email == email).Select(x => new User
+            {
+                EntityId = x.EntityId,
+                FullName = x.FullName,
+                Email = x.Email,
+                MobileNumber = x.MobileNumber
+            }).FirstOrDefaultAsync().ConfigureAwait(false);
+            return user ?? new User();
         }
     }
 }

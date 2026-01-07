@@ -12,5 +12,6 @@ namespace EHostels.Application.Services.Interfaces
     {
         Task<int> AddUser(UserDTO user);
         Task<List<User>> GetUsers();
+        Task<User> GetUserDetailsByEmail(string email);
     }
 }

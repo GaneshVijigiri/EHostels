@@ -1,3 +1,4 @@
+using EHostels.API.AppAuthorization;
 using EHostels.Application.Identity.Queries;
 using EHostels.Application.Mapper;
 using EHostels.Application.Services;
@@ -6,6 +7,7 @@ using EHostels.Common;
 using EHostels.Data.Context;
 using EHostels.Data.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -47,6 +49,7 @@ builder.Services.AddDbContext<EHostelsDbContext>(options =>
 });
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 builder.Services.AddMediatR(options => options.RegisterServicesFromAssembly(typeof(IdentityQuery).Assembly));
+builder.Services.AddScoped<IClaimsTransformation, AddCustomClaims>();
 ApplicationModule.Register(builder.Services);
 
 var app = builder.Build();
