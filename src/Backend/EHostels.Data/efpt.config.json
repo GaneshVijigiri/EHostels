@@ -1,6 +1,6 @@
 ﻿{
    "CodeGenerationMode": 4,
-   "ContextClassName": "EHostelsContext",
+   "ContextClassName": "EHostelsDbContext",
    "ContextNamespace": null,
    "FilterSchemas": false,
    "IncludeConnectionString": false,
@@ -18,6 +18,10 @@
    "SingularRules": null,
    "T4TemplatePath": null,
    "Tables": [
+      {
+         "Name": "[dbo].[RefreshTokens]",
+         "ObjectType": 0
+      },
       {
          "Name": "[dbo].[Users]",
          "ObjectType": 0

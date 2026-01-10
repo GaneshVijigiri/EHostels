@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using EHostels.Application.DTOs;
 using EHostels.Application.Services.Interfaces;
-using EHostels.Data.Context;
 using EHostels.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System;

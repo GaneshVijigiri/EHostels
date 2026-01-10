@@ -4,7 +4,6 @@ using EHostels.Application.Mapper;
 using EHostels.Application.Services;
 using EHostels.Application.Services.Interfaces;
 using EHostels.Common;
-using EHostels.Data.Context;
 using EHostels.Data.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
@@ -45,7 +44,7 @@ builder.Services.AddAuthentication(x =>
 });
 builder.Services.AddDbContext<EHostelsDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 builder.Services.AddMediatR(options => options.RegisterServicesFromAssembly(typeof(IdentityQuery).Assembly));

@@ -3,7 +3,6 @@ using EHostels.Application.Identity.Models;
 using EHostels.Application.Services.Interfaces;
 using EHostels.Common;
 using EHostels.Common.Enums;
-using EHostels.Data.Context;
 using EHostels.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -38,6 +37,17 @@ namespace EHostels.Application.Services
                     response.IsAuthenticated = true;
                     response.AccessToken = GenerateJwtToken(user);
                     response.RefreshToken = GenerateRefreshToken(user);
+
+                    RefreshToken refreshToken = new RefreshToken
+                    {
+                        Token = response.RefreshToken,
+                        ExpiredAt = DateTime.UtcNow.AddDays(30),
+                        CreatedOn = DateTime.UtcNow,
+                        UserId = user.EntityId,
+                        IsExpired = false
+                    };
+                    _context.RefreshTokens.Add(refreshToken);
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
                 }
                 else
                 {
@@ -48,7 +58,7 @@ namespace EHostels.Application.Services
             }
             return response;
         }
-        private string GenerateJwtToken(User user)
+        public string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.SecretKey);
@@ -62,14 +72,14 @@ namespace EHostels.Application.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddDays(1),
+                Expires = DateTime.UtcNow.AddMinutes(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
         }
-        private string GenerateRefreshToken(User user)
+        public string GenerateRefreshToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.SecretKey);
