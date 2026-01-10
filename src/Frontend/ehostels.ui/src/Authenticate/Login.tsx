@@ -1,26 +1,34 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
-import { useActionState, useState } from "react";
+import { useActionState, useContext, useState } from "react";
 import { postAsync } from "../common/ApiHandler";
+import * as Yup from "yup";
+import { RootContext } from "../common/context/RootProvider";
 
 interface LoginFormData {
-  email: string;
-  password: string;
+  email: string | undefined;
+  password: string | undefined;
 }
 const initialData: LoginFormData = {
-  email: "",
-  password: "",
+  email: undefined,
+  password: undefined,
 };
+const loginSchema = Yup.object().shape({
+  email: Yup.string().required("Email is required").email("Invalid email"),
+  password: Yup.string()
+    .required("Password is required")
+    .min(6, "Password must be at least 6 characters"),
+});
 const Login = () => {
+  const {setIsAuthorize} = useContext(RootContext);
   const [formData, setFormData] = useState<LoginFormData>(initialData);
-  const [, submitAction, isPending] = useActionState(
-    async (_: any, formData: FormData) => {
-      const payload = {
-        email: formData.get("email") as string,
-        password: formData.get("password") as string,
-      }
-      await postAsync("/api/ehostels/Identity/Login", payload)
+  const [error, setError] = useState<Partial<LoginFormData>>();
+  const [, submitAction, isPending] = useActionState(async (_: any) => {
+    try {
+      await loginSchema.validate(formData, {abortEarly: false, strict: true});
+      setError({});
+      await postAsync("/api/ehostels/Identity/Login", formData)
         .then((response) => {
-            console.log("response", response);
+          setIsAuthorize(true);
           localStorage.setItem("token", response.data.accessToken);
           localStorage.setItem("refreshToken", response.data.refreshToken);
         })
@@ -28,9 +36,19 @@ const Login = () => {
           console.error("Login failed:", error);
           alert("Login failed. Please check your credentials and try again.");
         });
-    },
-    null
-  );
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        const validationErrors: Partial<LoginFormData> = {};
+        error.inner.forEach((err) => {
+          if (err.path) {
+            validationErrors[err.path as keyof LoginFormData] = err.message;
+          }
+        })
+        console.log("validationErrors", validationErrors);
+        setError(validationErrors);
+      }
+    }
+  }, null);
   const handleChange = (key: keyof LoginFormData, value: string) => {
     setFormData((prev) => ({
       ...prev,
@@ -46,10 +64,10 @@ const Login = () => {
             <TextField
               label="Email"
               value={formData.email}
-              type="email"
               name="email"
               fullWidth
               onChange={(e) => handleChange("email", e.target.value)}
+              helperText={error?.email}
             />
           </Grid>
           <Grid>
@@ -60,6 +78,7 @@ const Login = () => {
               value={formData.password}
               fullWidth
               onChange={(e) => handleChange("password", e.target.value)}
+              helperText={error?.password}
             />
           </Grid>
           <Grid>
